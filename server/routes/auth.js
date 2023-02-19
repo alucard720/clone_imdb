@@ -2,9 +2,8 @@ const express = require('express');
 const{matchedData}= require("express-validator");
 const { encrypt, compare} = require("../utils/handlePasswords");
 const {validatorRegiterItem, validatorLoginItem} = require("../validators/authVal");
-const {userModel, usersModel} = require("../models");
 const route = express.Router();
-const bcrypt = require('bcryptjs')
+
 
 
 
@@ -23,18 +22,12 @@ const bcrypt = require('bcryptjs')
 
 //crear usuario
 
-route.post('/register',validatorRegiterItem, (req, res, next)=> {
-   const user = new usersModel({
-     email: req.body.email
-   });
- 
-   bcrypt.hash(req.body.password, 10, (error, hashedPassword)=> {
-     if(error) {return next(error);}
-     user.set('password', hashedPassword);
-     user.save(error=> {
-       if(error) {return next(error);}
-       return res.status(200).json(user);
-     })
-   });
+route.post('/register',validatorRegiterItem, async (req, res)=> {
+   
+      req = matchedData(req);
+      const passwordhash = await encrypt(req.passwordhash)
+      const body = {...req, passwordhash}
+      res.send({data:body})
+
  });
 module.exports = route

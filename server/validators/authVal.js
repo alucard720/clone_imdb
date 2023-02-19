@@ -10,7 +10,7 @@ check("Email")
 .exists()
 .notEmpty()
 .isEmail(),
-check("Password")
+check("password")
 .exists()
 .notEmpty()
 .isLength({min:8, max:15}), 

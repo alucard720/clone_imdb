@@ -4,12 +4,7 @@ const bcrypt = require('bcryptjs');
  * @param {*} textPlain 
  * @returns 
  */
-const encrypt = async (textPlain) => {
-    let salt = await bcrypt.genSaltSync(10)
-    const hash = await bcrypt.hash(textPlain, salt)
-    return hash
-  };
-  
+
   
   /**
    * Compara password with hash
@@ -17,8 +12,8 @@ const encrypt = async (textPlain) => {
    * @param {*} hashPassword 
    * @returns 
    */
-  const compare = async (passwordPlain , hashPassword) => {
-    return await bcrypt.compare(passwordPlain, hashPassword);
+  const compare = async (password , passwordhash) => {
+    return await bcrypt.compare(password, passwordhash);
   };
   
-  module.exports = { encrypt, compare };
+  module.exports = {  compare };
