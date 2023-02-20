@@ -4,7 +4,11 @@ const bcrypt = require('bcryptjs');
  * @param {*} textPlain 
  * @returns 
  */
-
+const encrypt = async ()=>{
+  const salt = await bcrypt.genSaltSync(10);
+  const hash = await bcrypt.hashSync("b4c0/\/", salt)
+  return hash;
+}
   
   /**
    * Compara password with hash
@@ -16,4 +20,4 @@ const bcrypt = require('bcryptjs');
     return await bcrypt.compare(password, passwordhash);
   };
   
-  module.exports = {  compare };
+  module.exports = {  encrypt,compare };

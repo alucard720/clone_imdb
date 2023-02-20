@@ -1,5 +1,6 @@
 const express = require('express');
 const{matchedData}= require("express-validator");
+const {usersModel} = require("../models")
 const { encrypt, compare} = require("../utils/handlePasswords");
 const {validatorRegiterItem, validatorLoginItem} = require("../validators/authVal");
 const route = express.Router();
@@ -25,9 +26,12 @@ const route = express.Router();
 route.post('/register',validatorRegiterItem, async (req, res)=> {
    
       req = matchedData(req);
-      const passwordhash = await encrypt(req.passwordhash)
-      const body = {...req, passwordhash}
-      res.send({data:body})
+      const password = await encrypt(req.password);
+      const body = {...req, password};
+      const data = await usersModel.findOne({email:"mike@hotmail.com"});
+      // const data = await usersModel.create(body);
+      // data.set('password', undefined, {strict:false});
+      res.send({data});
 
  });
 module.exports = route

@@ -13,7 +13,7 @@ check("Email")
 check("password")
 .exists()
 .notEmpty()
-.isLength({min:8, max:15}), 
+.isLength({min:5, max:15}), 
 
     (res, req, next) => {
         return validateResult(res, req, next);
@@ -28,7 +28,7 @@ check("password")
         check("Password")
         .exists()
         .notEmpty()
-        .isLength({min:3, max:99}), 
+        .isLength({min:5, max:99}), 
         
             (res, req, next) => {
                 return validateResult(res, req, next);
