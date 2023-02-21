@@ -1,4 +1,6 @@
+
 const mongoose = require('mongoose')
+
 
 const dbConnect = () =>{
 
@@ -8,9 +10,9 @@ const dbConnect = () =>{
         useUnifiedTopology:true
     },(err, res)=> {
         if(!err){
-            console.log('Server Connection UP')
+            console.log('**Server Connection UP**')
         }else{
-            console.log('Connection Error')
+            console.log('/\Connection Error')
         }
     }
     
