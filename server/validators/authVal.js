@@ -27,8 +27,7 @@ check("password")
         .notEmpty(),
         check("Password")
         .exists()
-        .notEmpty()
-        .isLength({min:5, max:99}), 
+        .notEmpty(),
         
             (res, req, next) => {
                 return validateResult(res, req, next);
