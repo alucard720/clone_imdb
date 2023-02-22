@@ -3,8 +3,9 @@ require("dotenv").config()
 const express = require('express')
 const cors =require('cors')
 const dbConnect = require('./config/mongo')
+const { default: mongoose } = require("mongoose")
 const app = express()
-
+mongoose.set('strictQuery', false);
 
 app.use(cors())
 app.use(express.json())

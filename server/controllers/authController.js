@@ -26,34 +26,69 @@ const registerCtrl = async (req, res) => {
 
 //para darle acceso a usuario
 const loginCtrl = async (req, res) => {
-  try {
-    req = matchedData(req);
-    const user = await usersModel
-      .findOne({ Email: req.body.Email })
-      .select('password');
-    if (!user) {
-      handleHttpError(res, "USER NOT EXISTS", 404);
-      return;
-    }
-    const passwordhash = user.get("password");
-    console.log({ passwordhash });
-    const check = await compare(req.password, passwordhash);
+const {Email, password} = req.body
 
-    if (!check) {
-      handleHttpError(res, "PASSWORD INVALID", 401);
-      return;
-    }
+ //validate user
+  const loguser = await usersModel.findOne({Email})
+  .select("password");
+  if(!loguser) {
+    handleHttpError(res, "USER NOT EXTIST", 404)
+  };
+
+//compare password
+const check = await compare(password, loguser.password);
+if(!check){
+  handleHttpError(res, "password invalid", 401)
+}
+
+
 
     const data = {
-      token: tokenSign(user),
-      user,
+      token: tokenSign(loguser),
+      loguser,
     };
 
     res.send({ data });
-  } catch (e) {
-    handleHttpError(res, "ERROR_LOGIN_USER");
-    console.log(e);
-  }
-};
+}
+
+
+// if(await compare(password,loguser.password )){
+//   res.status(200).send({
+//     _id:loguser._id,
+//     email:loguser.Email,
+
+//   })
+// }
+  
+  // try {
+  //   const {Email, password} = req.body
+  //   req = matchedData(req);
+  //   const user = await usersModel
+  //     .findOne({ Email:req.Email})
+  //     .select('password');
+  //   if (!user) {
+  //     handleHttpError(res, "USER NOT EXISTS", 404);
+  //     return;
+  //   }
+  //   const passwordhash = user.get("password");
+  //   console.log({ passwordhash });
+  //   const check = await compare(req.password, passwordhash);
+
+  //   if (!check) {
+  //     handleHttpError(res, "PASSWORD INVALID", 401);
+  //     return;
+  //   }
+
+  //   const data = {
+  //     token: tokenSign(user),
+  //     user,
+  //   };
+
+  //   res.send({ data });
+  // } catch (e) {
+  //   handleHttpError(res, "ERROR_LOGIN_USER");
+  //   console.log(e);
+  // }
+//};
 
 module.exports = { registerCtrl, loginCtrl };

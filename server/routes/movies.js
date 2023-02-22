@@ -3,12 +3,13 @@ const route = express.Router();
 const customHeader = require("../middleware/customHeader")
 const {validatorCreateItem,validatorgetItem} = require("../validators/movieVal");
 const {getItems, getItem, CreateItems, UpdateItems, DeleteItems} = require("../controllers/moviesController");
+const authMiddleware = require('../middleware/session');
 
 //TODO http://localhost/movies GET,POST, UPDATE,DELETE
 
 //lista los items
 
-route.get("/", getItems);
+route.get("/",getItems);
 
 
 //obtener detalle de items
