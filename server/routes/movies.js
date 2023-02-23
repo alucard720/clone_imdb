@@ -1,6 +1,5 @@
 const express = require('express');
 const route = express.Router();
-const customHeader = require("../middleware/customHeader")
 const {validatorCreateItem,validatorgetItem} = require("../validators/movieVal");
 const {getItems, getItem, CreateItems, UpdateItems, DeleteItems} = require("../controllers/moviesController");
 const authMiddleware = require('../middleware/session');
@@ -9,7 +8,7 @@ const authMiddleware = require('../middleware/session');
 
 //lista los items
 
-route.get("/",getItems);
+route.get("/",authMiddleware,getItems);
 
 
 //obtener detalle de items
