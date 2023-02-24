@@ -2,7 +2,7 @@ const { matchedData } = require("express-validator");
 const { usersModel } = require("../models");
 const { tokenSign } = require("../utils/handeljwt");
 const { encrypt, compare } = require("../utils/handlePasswords");
-const { handleHttpError } = require("../utils/handleErrors");
+const { handleHttpErrors } = require("../utils/handleErrors");
 
 //para registrar usuario
 
@@ -20,8 +20,9 @@ const registerCtrl = async (req, res) => {
     };
     res.send({ data });
   } catch (e) {
-    handleHttpError(res, "CANT REGISTER USER");
+    handleHttpErrors(res, "CANT REGISTER USER");
   }
+   
 };
 
 //para darle acceso a usuario
@@ -32,13 +33,13 @@ const {Email, password} = req.body
   const loguser = await usersModel.findOne({Email})
   .select("password");
   if(!loguser) {
-    handleHttpError(res, "USER NOT EXTIST", 404)
+    handleHttpErrors(res, "USER NOT EXTIST", 404)
   };
 
 //compare password
 const check = await compare(password, loguser.password);
 if(!check){
-  handleHttpError(res, "password invalid", 401)
+  handleHttpErrors(res, "password invalid", 401)
 }
 
 
